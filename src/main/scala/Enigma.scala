@@ -3,14 +3,14 @@ class Enigma(val reflector: Reflector, val rotors: List[Rotor]) {
   def findPositionOfChar(c: Char): Int = Alphabets.realAlphabet.indexOf(c)
   
   def rotate(rotors: List[Rotor]) {
-    if (rotors.head.isAtNotch) {
+    if (!rotors.isEmpty && rotors.head.isAtNotch) {
       rotate(rotors.tail)
     }
     rotors.head.rotate
   }
 
   def encryptChar(c: Char) = {
-    val index: Int = findPositionOfChar(c)
+    val index: Int = findPositionOfChar(c.toUpper)
     if (index < 0) c
     else {
       rotate(rotors.reverse)

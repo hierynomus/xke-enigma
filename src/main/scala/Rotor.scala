@@ -1,10 +1,11 @@
 import collection.mutable.ListBuffer
 
-class Rotor(val alphabet: String, val beginPos: Int) {
+class Rotor(val leftAlphabet: String, val rightAlphabet: String, val beginPos: Int, val notch: Char) {
+  def this(alphabet: String, beginPos: Int) = this(Alphabets.realAlphabet, alphabet, beginPos, 'Z')
 
-  var rotorMap: List[(Char, Char)] = rotate((Alphabets.realAlphabet zip alphabet).toList, beginPos)
+  var rotorMap: List[(Char, Char)] = rotate((leftAlphabet zip rightAlphabet).toList, beginPos)
 
-  def isAtNotch = rotorMap.head._1 == 'Z'
+  def isAtNotch = rotorMap.head._1 == notch
 
   def translateRightToLeft(windowPos: Int) = {
     rotorMap.indexWhere(t => t._1 == rotorMap(windowPos)._2)
