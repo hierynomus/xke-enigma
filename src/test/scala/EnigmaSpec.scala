@@ -1,19 +1,29 @@
-import org.scalatest.{Spec, BeforeAndAfter}
+import org.scalatest.{BeforeAndAfter, FunSpec}
 
-class EnigmaSpec extends Spec with BeforeAndAfter {
+class EnigmaSpec extends FunSpec with BeforeAndAfter {
 
-  var enigma: Enigma = _
+  var simpleEnigma: Enigma = _
   
   before {
-    enigma = new Enigma
+    simpleEnigma = new Enigma(new Reflector(Alphabets.reflector), List(new Rotor(Alphabets.alphabetIII, 10)))
   }
-
-  describe("An enigma machine") {
-    it ("should ...") {
-
+  
+  describe("A simple enigma") {
+    it("should find the index of the character to encrypt") {
+      assert(simpleEnigma.findPositionOfChar('E') === 4)
     }
 
-    it ("should also ...") {
+    it("should rotate the rotor before it encrypts") {
+      assert(simpleEnigma.encryptChar('E') === 'J')
+    }
+
+    it("should not encrypt non-alphabet characters") {
+      assert(simpleEnigma.encryptChar(' ') === ' ')
+    }
+  }
+
+  describe("A more complex enigma") {
+    it("foo") {
 
     }
   }

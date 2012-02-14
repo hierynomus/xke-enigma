@@ -1,0 +1,10 @@
+object Alphabets {
+
+  val realAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+  val alphabetI = "EKMFLGDQVZNTOWYHXUSPAIBRCJ"
+  val alphabetII = "AJDKSIRUXBLHWTMCQGZNPYFVOE"
+  val alphabetIII = "BDFHJLCPRTXVZNYEIWGAKMUSQO"
+
+  val reflector = "ABCDEFGDIJKGMKMIEBFTCVVJAT"
+}
