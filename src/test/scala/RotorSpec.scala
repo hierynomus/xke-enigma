@@ -21,6 +21,13 @@ class RotorSpec extends FunSpec with BeforeAndAfter {
       rotor.rotate
       assert(rotor.translateRightToLeft(4) === 19)
     }
+
+    it("should be at notch when 'Z' is showing in the window") {
+      1.to(14).foreach(_ => rotor.rotate)
+      assert(rotor.isAtNotch === false)
+      rotor.rotate
+      assert(rotor.isAtNotch === true)
+    }
   }
   
   describe("A rotor which translates left-to-right") {

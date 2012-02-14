@@ -9,6 +9,7 @@ class EnigmaAcceptanceSpec extends FunSpec with BeforeAndAfter {
   before {
     enigma = new Enigma(new Reflector(Alphabets.reflector), List(new Rotor(Alphabets.alphabetI, 12), new Rotor(Alphabets.alphabetII, 2), new Rotor(Alphabets.alphabetIII, 10)))
   }
+
   describe("An accepted enigma") {
     it("should encrypt the text") {
       assert(enigma.encode(plainText) === cipherText)
