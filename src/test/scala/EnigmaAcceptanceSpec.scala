@@ -1,5 +1,8 @@
 import org.scalatest.{FunSpec, BeforeAndAfter}
 
+/**
+ * http://startpad.googlecode.com/hg/labs/js/enigma/enigma-sim.html
+ */
 class EnigmaAcceptanceSpec extends FunSpec with BeforeAndAfter {
 
   var enigma: Enigma = _
