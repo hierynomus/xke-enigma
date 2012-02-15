@@ -1,12 +1,10 @@
 class Enigma(val reflector: Reflector, val rotors: List[Rotor]) {
+  def window : String = rotors.map(_.showing).mkString
 
   def findPositionOfChar(c: Char): Int = Alphabets.realAlphabet.indexOf(c)
-  
+
   def rotate(rotors: List[Rotor]) {
-    if (!rotors.isEmpty && rotors.head.isAtNotch) {
-      rotate(rotors.tail)
-    }
-    rotors.head.rotate
+    rotors.foldLeft(true)((b, r) => {val n = r.isAtNotch; if (b || n) r.rotate; n})
   }
 
   def encryptChar(c: Char) = {
@@ -14,7 +12,7 @@ class Enigma(val reflector: Reflector, val rotors: List[Rotor]) {
     if (index < 0) c
     else {
       rotate(rotors.reverse)
-      val i = encryptLeftToRight(reflector.reflect(encryptRightToLeft(index, rotors.reverse)), rotors)
+      val i = (rotors.reverse ++ List[{def translate(i: Int): Int}](reflector) ++ rotors.map(_.mirror)).foldLeft(index)((i, p) => p.translate(i))
       Alphabets.realAlphabet.charAt(i)
     }
   }
@@ -22,15 +20,5 @@ class Enigma(val reflector: Reflector, val rotors: List[Rotor]) {
   def encode(s: String) : String = {
     s.map(encryptChar(_))
   }
-
-  def encryptRightToLeft(index: Int, rotors: List[Rotor]) : Int = rotors match {
-    case x :: xs => encryptRightToLeft(rotors.head.translateRightToLeft(index), rotors.tail)
-    case _ => index
-  }
-  
-  def encryptLeftToRight(index: Int,  rotors: List[Rotor]) : Int = rotors match {
-    case x :: xs => encryptLeftToRight(rotors.head.translateLeftToRight(index), rotors.tail)
-    case _ => index
-  }
-  
 }
+

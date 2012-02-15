@@ -12,14 +12,18 @@ class EnigmaAcceptanceSpec extends FunSpec with BeforeAndAfter {
 
   before {
     enigma = new Enigma(new Reflector(Alphabets.reflector), List(
-      new Rotor(Alphabets.realAlphabet, Alphabets.alphabetI, 12, 'E'),
-      new Rotor(Alphabets.realAlphabet, Alphabets.alphabetII, 2, 'Q'),
-      new Rotor(Alphabets.realAlphabet, Alphabets.alphabetIII, 10, 'V')))
+      new Rotor(Alphabets.alphabetI, 12, 'Q'),
+      new Rotor(Alphabets.alphabetII, 2, 'E'),
+      new Rotor(Alphabets.alphabetIII, 10, 'V')))
   }
 
   describe("An accepted enigma") {
     it("should encrypt the text") {
       assert(enigma.encode(plainText) === cipherText)
+    }
+
+    it("should show the positions of the rotors") {
+      assert(enigma.window === "MCK")
     }
 
     it("should decrypt the encrypted text") {
@@ -33,6 +37,15 @@ class EnigmaAcceptanceSpec extends FunSpec with BeforeAndAfter {
       assert(enigma.encode("ABCDEFGHIJKLMNOPQRSTUVWXYZ") === "TSNCHBIWPNQFZYVWOSDDKACTQU")
     }
 
+    it("should work") {
+      assert(enigma.encode("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJK") === "TSNCHBIWPNQFZYVWOSDDKACTQUKFPHMXJPDKP")
+      assert(enigma.window === "MDV")
+      enigma.encode("L")
+      assert(enigma.window === "MEW")
+      enigma.encode("M")
+      assert(enigma.window === "NFX")
+    }
+    
     it("should also parse a very long message") {
       assert(enigma.encode("ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ") === "TSNCHBIWPNQFZYVWOSDDKACTQUKFPHMXJPDKPTXWUJUUYYXRRMQK")
     }

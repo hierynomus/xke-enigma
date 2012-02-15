@@ -1,27 +1,29 @@
 import collection.mutable.ListBuffer
 
-class Rotor(val leftAlphabet: String, val rightAlphabet: String, val beginPos: Int, val notch: Char) {
-  def this(alphabet: String, beginPos: Int) = this(Alphabets.realAlphabet, alphabet, beginPos, 'Z')
+class Rotor(var rotorMap: List[(Char, Char)], val notch: Char) {
+  def this(alphabet: String, beginPos: Int, notch: Char) = this(Rotor.rotate((Alphabets.realAlphabet zip alphabet).toList, beginPos), notch)
+  def this(alphabet: String, beginPos: Int) = this(alphabet, beginPos, 'Z')
 
-  var rotorMap: List[(Char, Char)] = rotate((leftAlphabet zip rightAlphabet).toList, beginPos)
+  def showing = rotorMap.head._1
 
   def isAtNotch = rotorMap.head._1 == notch
 
-  def translateRightToLeft(windowPos: Int) = {
+  def mirror = new Rotor(rotorMap.map(x => (x._2, x._1)), notch)
+  
+  def translate(windowPos: Int) = {
     rotorMap.indexWhere(t => t._1 == rotorMap(windowPos)._2)
   }
-  def translateLeftToRight(windowPos: Int) = {
-    rotorMap.indexWhere(t => t._2 == rotorMap(windowPos)._1)
-  }
 
-  private def rotate(l: List[(Char,  Char)], nr: Int) = {
+  def rotate {
+    rotorMap = Rotor.rotate(rotorMap, 1)
+  }
+}
+
+object Rotor {
+  def rotate(l: List[(Char,  Char)], nr: Int) = {
     val b : ListBuffer[(Char,  Char)] = ListBuffer.empty
     b.appendAll(l.drop(nr))
     b.appendAll(l.take(nr))
     b.toList
-  }
-
-  def rotate {
-    rotorMap = rotate(rotorMap, 1)
   }
 }

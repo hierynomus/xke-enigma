@@ -10,7 +10,7 @@ class ReflectorSpec extends FunSpec with BeforeAndAfter {
   
   describe("A reflector") {
     it("should reflect a position into its counterpart position") {
-      assert(reflector.reflect(0) === 24)
+      assert(reflector.translate(0) === 24)
     }
   }
 }
